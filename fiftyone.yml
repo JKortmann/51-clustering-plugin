@@ -1,7 +1,7 @@
 fiftyone:
   version: ">=0.23.7"
 name: "@jkortmann/51-clustering-plugin"
-version: "0.1.6"
+version: "0.2.0"
 description: "Run unsupervised clustering on your images!"
 url: "https://github.com/JKortmann/51-clustering-plugin"
 operators:

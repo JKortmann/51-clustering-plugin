@@ -40,14 +40,12 @@ class BirchClusteringConfig(ClusteringConfig):
         branching_factor=50,
         n_clusters=3,
         compute_labels=True,
-        copy=True,
         **kwargs,
     ):
         self.threshold = threshold
         self.branching_factor = branching_factor
         self.n_clusters = n_clusters
         self.compute_labels = compute_labels
-        self.copy = copy
 
         super().__init__(**kwargs)
 
@@ -89,7 +87,6 @@ class BirchClusteringResults(ClusteringResults):
             branching_factor=self.config.branching_factor,
             n_clusters=self.config.n_clusters,
             compute_labels=self.config.compute_labels,
-            copy=self.config.copy,
         )
         birch.fit(self.embeddings)
         self._clusters = birch.labels_

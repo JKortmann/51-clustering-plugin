@@ -50,23 +50,29 @@ class HDBSCANClusteringConfig(ClusteringConfig):
             leaves of the tree – this provides the most fine grained and
             homogeneous clusters by setting this to ``"leaf"``.
         allow_single_cluster (False): Whether or not to allow single cluster.
+        copy (True): If copy=True then any time an in-place modifications would
+            be made that would overwrite data passed to fit, a copy will first
+            be made, guaranteeing that the original data will be unchanged.
+        n_jobs (None): Number of jobs to run in parallel to calculate distances.
+            None means 1 and -1 means using all processors.
     """
 
     def __init__(
-        self,
-        min_cluster_size=5,
-        min_samples=None,
-        cluster_selection_epsilon=0.0,
-        max_cluster_size=None,
-        metric="euclidean",
-        alpha=1.0,
-        algorithm="auto",
-        leaf_size=40,
-        cluster_selection_method="eom",
-        allow_single_cluster=False,
-        **kwargs,
+            self,
+            min_cluster_size=5,
+            min_samples=None,
+            cluster_selection_epsilon=0.0,
+            max_cluster_size=None,
+            metric="euclidean",
+            alpha=1.0,
+            algorithm="auto",
+            leaf_size=40,
+            cluster_selection_method="eom",
+            allow_single_cluster=False,
+            copy=True,
+            n_jobs=None,
+            **kwargs,
     ):
-
         self.min_cluster_size = min_cluster_size
         self.min_samples = min_samples
         self.cluster_selection_epsilon = cluster_selection_epsilon
@@ -77,6 +83,8 @@ class HDBSCANClusteringConfig(ClusteringConfig):
         self.leaf_size = leaf_size
         self.cluster_selection_method = cluster_selection_method
         self.allow_single_cluster = allow_single_cluster
+        self.copy = copy
+        self.n_jobs = n_jobs
 
         super().__init__(**kwargs)
 
@@ -125,6 +133,8 @@ class HDBSCANClusteringResults(ClusteringResults):
             leaf_size=self.config.leaf_size,
             cluster_selection_method=self.config.cluster_selection_method,
             allow_single_cluster=self.config.allow_single_cluster,
+            copy=self.config.copy,
+            n_jobs=self.config.n_jobs,
         )
         hdbscan.fit(self.embeddings)
         self._clusters = hdbscan.labels_
